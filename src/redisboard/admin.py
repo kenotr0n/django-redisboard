@@ -29,11 +29,15 @@ class RedisServerAdmin(admin.ModelAdmin):
         'details',
         'cpu_utilization',
         'slowlog',
+        'latency',
         'tools',
     )
 
     list_filter = 'label', 'hostname'
     ordering = ('hostname', 'port')
+
+    def latency(self, obj):
+        return obj.latency_graph();
 
     def slowlog(self, obj):
         output = [(float('inf'), 'Total: %d items' % obj.slowlog_len())]

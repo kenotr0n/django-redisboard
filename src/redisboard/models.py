@@ -159,6 +159,12 @@ class RedisServer(models.Model):
 
         return label
 
+    def latency_graph(self):
+        try:
+            return self.connection.execute_command('latency','graph','command')
+        except (redis.exceptions.ResponseError, redis.exceptions.ConnectionError):
+            return ''
+
     def slowlog_len(self):
         try:
             return self.connection.slowlog_len()
